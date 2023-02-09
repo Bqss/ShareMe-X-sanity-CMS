@@ -1,29 +1,34 @@
-import {FiMenu} from "react-icons/fi";
-import { NavLink } from "react-router-dom";
+import { FiMenu } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import logo from "./../../assets/logo.png";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../../fitures/sidebarSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 function Navbar() {
-
+  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
-
   return (
-    <div className='flex md:hidden items-center bg-white justify-between p-4 shadow-md'>
+    <div className="flex md:hidden items-center bg-white justify-between p-4 shadow-md">
       <button onClick={() => dispatch(toggleSidebar())}>
-        <FiMenu className="w-8 h-8"/>
+        <FiMenu className="w-8 h-8" />
       </button>
-      <NavLink to={"/"}>
-        <img src={logo} alt="logo" className="w-[140px]"/>
-      </NavLink>
-      <NavLink to={"/"}>
-        <div className="w-10 h-10 rounded-full bg-gray-300">
+      <Link to={"/"}>
+        <img src={logo} alt="logo" className="w-[140px]" />
+      </Link>
 
-        </div>
-      </NavLink>
+      <Link to={`user-profile/${user.userId}`}>
+        <img
+          src={`${user.image}`}
+          alt="profile"
+          className="w-10 h-10 rounded-full"
+          title="go to profile"
+        />
+      </Link>
     </div>
-  )
+  );
 }
 
 export default Navbar;

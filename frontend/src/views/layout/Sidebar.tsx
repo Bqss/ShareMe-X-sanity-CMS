@@ -34,7 +34,7 @@ const Sidebar = () => {
           </li>
         </ul>
         <div className="fex flex-col gap-3 mt-5">
-          <span>Discover Categories</span>
+          <span className="relative after:absolute after:w-[120%] after:h-[1.5px] after:shadow-sm after:left-0 after:-bottom-1 after:bg-gradient-to-r after:from-red-500 after:to-yellow-500 after:rounded-full  ">Discover Categories</span>
           <ul className="flex flex-col gap-2 mt-3">
             {categories.map((value, id) => (
               <li key={id}>
@@ -43,7 +43,7 @@ const Sidebar = () => {
                   unactive="after:bg-transparent font-thin"
                   active="after:bg-black font-bold"
                 >
-                  <span className="capitalize">{value.name}</span>
+                  <span className="capitalize ">{value.name}</span>
                 </A>
               </li>
             ))}
