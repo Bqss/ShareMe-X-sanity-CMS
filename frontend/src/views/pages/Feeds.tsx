@@ -1,27 +1,41 @@
-import {useState, useEffect} from 'react'
-import { useParams } from 'react-router-dom'
-import { getPins } from '../../api/pins';
-import Pin from '../components/pin';
+import { useMutation, useQueryClient } from "react-query";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getPin } from "../../api/pins";
+import { RootState } from "../../store";
+import { useEffect } from "react";
+import { PinPayload } from "../../types/typing";
+
+import Pin from "../components/Pin";
+import MasonryLayout from "../layout/MasonryLayout";
+import { PuffLoader } from "react-spinners";
+import Loader from "../components/Loader";
 
 const Feeds = () => {
-  const {category = ""} = useParams();
-  const [pins, setpins] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    setIsLoading(true)
-    const pins = getPins(category).then(pins => {
-      setpins(pins);
-    }).finally(() => {
-      setIsLoading(false);
-    });
-  },[])
+  const { category = "" } = useParams();
+  const { user } = useSelector((state: RootState) => state.user);
+  const { data: pins = [], isLoading, mutate } = useMutation(getPin);
 
+  useEffect(() => {
+      mutate(category);
+
+  }, [category]);
 
   return (
-    <div>
-      {isLoading ? "skeleton": pins.length > 0 ? pins.map(pin => <Pin/>):"There is no pin" }
+    <div className="">
+      {isLoading ? (
+        <Loader/>
+      ) : pins?.length > 0 ? (
+        <MasonryLayout>
+          {pins.map((pin, i) => (
+            <Pin pin={pin} key={i} user={user} />
+          ))}
+        </MasonryLayout>
+      ) : (
+        "There is no pin"
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Feeds
+export default Feeds;

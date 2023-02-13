@@ -1,6 +1,6 @@
 import { AnyAction } from "redux";
 import client from "../client";
-import { User } from "../types/payload";
+import { User } from "../types/typing";
 
 export const saveUser = async (user: User, onSucces: () => void) => {
   client.createIfNotExists(user).then(() => {
@@ -8,17 +8,14 @@ export const saveUser = async (user: User, onSucces: () => void) => {
   });
 };
 
-
 interface params {
-  userId: string,
-  onSucces: (response: any) => void  ,
-  onFailed: (err : any) => void
+  userId: string;
+  onSucces?: (response: any) => void;
+  onFailed?: (err: any) => void;
 }
-export const getUserById = async ({
-  userId,
-  onSucces,
-  onFailed
-}:params ) => {
+export const getUserById = async (userId : string|null|undefined ) => {
+  if(!userId) return;
   const query = `*[_type=="user"&& _id=="${userId}"]`;
-  const user = client.fetch(query).then(onSucces).catch(onFailed)
+  const result = await client.fetch(query);
+  return result;
 };

@@ -1,17 +1,8 @@
 import logo from "./../../assets/logo.png";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
-import { forwardRef } from "react";
 import A from "../components/A";
-
-const categories = [
-  { name: "animals" },
-  { name: "walpapers" },
-  { name: "photography" },
-  { name: "gaming" },
-  { name: "coding" },
-  { name: "other" },
-];
+import { categories } from "../../util/data";
 
 const Sidebar = () => {
   return (
@@ -34,15 +25,17 @@ const Sidebar = () => {
           </li>
         </ul>
         <div className="fex flex-col gap-3 mt-5">
-          <span className="relative after:absolute after:w-[120%] after:h-[1.5px] after:shadow-sm after:left-0 after:-bottom-1 after:bg-gradient-to-r after:from-red-500 after:to-yellow-500 after:rounded-full  ">Discover Categories</span>
-          <ul className="flex flex-col gap-2 mt-3">
+          <span className="relative after:absolute after:w-[90%] after:h-[1.5px] after:shadow-sm after:left-0 after:-bottom-2 after:bg-gradient-to-r after:from-red-500 after:to-yellow-500 after:rounded-full  ">Discover Categories</span>
+          <ul className="flex flex-col gap-2 mt-5">
             {categories.map((value, id) => (
               <li key={id}>
                 <A
                   to={`/category/${value.name}`}
                   unactive="after:bg-transparent font-thin"
                   active="after:bg-black font-bold"
+                  className="inline-flex gap-3 items-center"
                 >
+                  <img src={value.image} alt={value.name} className="w-8 h-8 rounded-full object-cover" />
                   <span className="capitalize ">{value.name}</span>
                 </A>
               </li>

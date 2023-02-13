@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserPayload } from "../types/payload";
+import { UserPayload } from "../types/typing";
 
 
 const initialState = {

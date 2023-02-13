@@ -13,26 +13,27 @@ import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../fitures/userSlice";
 import { getUserById } from "../../api/user";
+import { useMutation } from "react-query";
 
 const Home = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const [searchKey, setSearchKey] = useState("");
+  const getUser = useMutation(getUserById, {
+    onSuccess(data) {
+      const { userName, image, _id } = data[0];
+      dispatch(setUser({ username: userName, image, userId: _id }));
+    },
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (localStorage.getItem("user") === null) {
       navigate("/login", { replace: true });
       return;
     }
     const { userId } = JSON.parse(localStorage.getItem("user") || "");
-    getUserById({
-      userId,
-      onFailed: (err) => navigate("/login"),
-      onSucces: (response) => {
-        const { userName, image, _id } = response[0];
-        dispatch(setUser({ username: userName, image, userId: _id }));
-      },
-    });
+    getUser.mutate(userId);
   }, []);
 
   const [open, sidebar] = useClickOutsideStore({

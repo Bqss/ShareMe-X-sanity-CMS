@@ -2,9 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base{
+  button, a{
+    @apply transition-colors duration-150;
+  }
+  input, textarea{
+    @apply outline-none transition-colors duration-150 py-[.1em];
+  }
+}
+
 body{
   font-family: 'Roboto', sans-serif;
 }
+
 
 img{
   max-width: 100%;
