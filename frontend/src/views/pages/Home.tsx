@@ -16,16 +16,15 @@ import { getUserById } from "../../api/user";
 import { useMutation } from "react-query";
 
 const Home = () => {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [searchKey, setSearchKey] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isSmall = useMediaQuery("lg");
   const getUser = useMutation(getUserById, {
     onSuccess(data) {
       const { userName, image, _id } = data[0];
       dispatch(setUser({ username: userName, image, userId: _id }));
     },
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (localStorage.getItem("user") === null) {
@@ -40,7 +39,6 @@ const Home = () => {
     name: "sidebar",
     handler: closeSidebar(),
   });
-  const isSmall = useMediaQuery("lg");
 
   return (
     <div className="flex">
@@ -51,44 +49,7 @@ const Home = () => {
       {/* top */}
       <div className="flex flex-col flex-1">
         <Navbar />
-
-        <div className="flex px-5 mt-4 items-stretch gap-5">
-          {/* search bar */}
-          <div className="flex bg-white px-4 py-1 items-center w-full rounded-md shadow-sm">
-            <div>
-              <BiSearch className="w-5 h-5" />
-            </div>
-            <input
-              type="text"
-              className="flex-1 ml-2 bg-transparent  border-0 outline-none"
-              placeholder="Search...."
-              value={searchKey}
-              onChange={(ev) => setSearchKey(ev.target.value)}
-            />
-          </div>
-          <div className="flex gap-2">
-            {!isSmall && (
-              <Link to={`user-profile/${user.userId}`}>
-                <img
-                  src={`${user.image}`}
-                  alt="profile"
-                  className="w-12  rounded-md"
-                />
-              </Link>
-            )}
-            <NavLink
-              to={"/create-pin"}
-              className={
-                "rounded-md w-12 aspect-square inline-grid place-content-center bg-black"
-              }
-            >
-              <AiOutlinePlus className="w-4 h-4 text-white" />
-            </NavLink>
-          </div>
-        </div>
-        <div className="mt-6 px-5">
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
       {/* sidebar mobile */}
       <Transition show={open && isSmall} as="div">

@@ -6,7 +6,7 @@ import { categories } from "../../util/data";
 
 const Sidebar = () => {
   return (
-    <div className=" flex bg-white flex-col h-screen">
+    <div className=" flex sticky top-0 bg-white flex-col h-screen">
       <Link to={"/"} className="px-6 py-6">
         <img src={logo} alt="logo" className="w-[140px]" />
       </Link>

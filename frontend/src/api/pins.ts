@@ -7,14 +7,13 @@ import { SanityImageAssetDocument } from "@sanity/client";
 
 
 const getPin = async (category: string) => {
-  const query = `*[_type=="pin"${category? `&&category=="${category}"`  : ""}]`
+  const query = `*[_type=="pin"${category? `&&category=="${category}"`  : ""}]| order(_createdAt desc)`
   const result = await Axios.get<Data<PinPayload>>(`production?query=${encodeURIComponent(query)}`);
   return result.data?.result;
 }
 
 const getPinById = async (id:string| undefined) => {
   const query = `*[_type=="pin"&&_id=="${id}"]`;
-  console.log('fetchinggg')
   const result = await Axios.get<Data<PinPayload>>(`production?query=${encodeURIComponent(query)}`);
   return result.data?.result;
 }
@@ -28,6 +27,12 @@ const savePin =  (pinId: string, userId: string) => {
       _ref: userId
     }
   }]).commit(); 
+}
+
+const searchPin = async(searchTerm : string)=> {
+  const query = `*[_type=="pin" && (title match '${searchTerm}*' || category match '${searchTerm}*' || about match '${searchTerm}*')]`
+  const result = await Axios.get<Data<PinPayload>>(`production?query=${encodeURIComponent(query)}`);
+  return result.data.result 
 }
 
 
@@ -92,5 +97,12 @@ const uploadImage = async (image : any) => {
   return result;
 }
 
+const getSavedPin = async (userId : string) =>{
+  if(!userId) return[]
+  const query = `*[_type=="pin"&&"${userId}" in save[].userId] | order(_createdAt desc)`
+  const result = await Axios.get<Data<PinPayload>>(`production?query=${encodeURIComponent(query)}`);
+  return result.data.result;
+}
 
-export  {savePin, getPin, deletePin, uploadImage, createPin, getPinById, saveComment} ;
+
+export  {savePin, getPin, deletePin, uploadImage, createPin, getPinById, saveComment, getSavedPin, searchPin } ;

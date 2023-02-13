@@ -47,7 +47,7 @@ const CreatePin = () => {
   };
 
   return (
-    <section className="flex rounded-md justify-center mt-6">
+    <section className="flex rounded-md justify-center mt-6 mx-5">
       <div className="w-full relative flex gap-4 lg:gap-0 flex-col lg:flex-row max-w-7xl rounded-md bg-white p-5">
         {failed && (
           <div className=" bg-red-500 z-20 absolute p-4 rounded-md flex items-center gap-4 top-1/3 left-1/2 -translate-x-1/2">
@@ -58,7 +58,7 @@ const CreatePin = () => {
         <DragDropFile setter={setImage} image={image} />
         <form
           onSubmit={handleSubmit}
-          className=" space-y-4 flex justify-center  flex-col flex-1 py-4 px-6"
+          className=" space-y-4 flex justify-center  flex-col flex-1 py-1 md:py-4 px-6"
         >
           <input
             type="text"
@@ -69,7 +69,7 @@ const CreatePin = () => {
             className="w-full border-b-2 border-gray200  md:text-xl"
             placeholder="Add your title"
           />
-          <div className="flex flex-col py-4">
+          <div className="flex flex-col py-1 md:py-4">
             <div className="flex gap-2 items-center ">
               <img
                 src={user.image}
@@ -84,7 +84,7 @@ const CreatePin = () => {
               onChange={handleChange}
               value={pin.about}
               placeholder="Tell everyone what your pin is about"
-              className="w-full text-sm md:text-base border-b-2 border-gray-200 mt-6 resize-none py-[.4em]"
+              className="w-full text-sm md:text-base border-b-2 border-gray-200 mt-2 md:mt-6 resize-none py-[.4em]"
             />
             <input
               type="text"
